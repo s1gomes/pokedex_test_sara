@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,10 +19,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dominio.pokedex.R
 import com.dominio.pokedex.main.datalayer.pokemon.PokemonsUIEvents
@@ -39,6 +45,9 @@ fun PokemonsList(
     onClickPokemon: (name: String) -> Unit,
     pokemonsViewModel: PokemonsViewModel
 ) {
+    var isFirstLoading by remember {
+        mutableStateOf(true)
+    }
     LaunchedEffect(listState) {
         snapshotFlow { listState.layoutInfo }
             .collect { layoutInfo ->
@@ -52,47 +61,60 @@ fun PokemonsList(
     }
     if (pokemons.isEmpty() && !pokemonsUIState.isLoading) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .background(CustomLightColors.background),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+                    .padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "Pokemon list is empty.",
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.headlineSmall,
                     color = CustomLightColors.error
                 )
                 IconButton(onClick = {
                     pokemonsViewModel.onEvent(PokemonsUIEvents.LoadMorePokemons)
                 }) {
-                    Icon(painter = painterResource(id = R.drawable.reload), contentDescription = "reload")
+                    Icon(
+                        painter = painterResource(id = R.drawable.reload),
+                        contentDescription = "reload",
+                        tint = CustomLightColors.onSurface,
+                        modifier = Modifier.size(30.dp))
                 }
             }
         }
     } else if (pokemonsUIState.error){
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
+                .background(CustomLightColors.background),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth().padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Error: ${pokemonsUIState.responseStatus}",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = CustomLightColors.error
+                    text = "${pokemonsUIState.responseStatus} \nTente novamente.",
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = CustomLightColors.error,
+                    overflow = TextOverflow.Clip
                 )
                 IconButton(onClick = {
                     pokemonsViewModel.onEvent(PokemonsUIEvents.LoadMorePokemons)
                 }) {
-                    Icon(painter = painterResource(id = R.drawable.reload), contentDescription = "reload")
+                    Icon(
+                        painter = painterResource(id = R.drawable.reload),
+                        contentDescription = "reload",
+                        tint = CustomLightColors.onSurface,
+                        modifier = Modifier.size(30.dp)
+                    )
                 }
             }
         }
@@ -117,11 +139,29 @@ fun PokemonsList(
             }
 
             item {
-                if (pokemonsUIState.isLoading) {
+                if (isFirstLoading) {
+                    Column(
+                        modifier = Modifier.fillMaxSize().background(CustomLightColors.background),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                } else {
+                    isFirstLoading = false
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp),
+                            .padding(8.dp)
+                            .background(CustomLightColors.background),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {

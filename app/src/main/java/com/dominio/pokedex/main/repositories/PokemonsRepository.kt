@@ -1,6 +1,6 @@
 package com.dominio.pokedex.main.repositories
 
-import android.util.Log
+
 import com.dominio.pokedex.main.datasources.PokemonDataSource
 import com.dominio.pokedex.main.model.PokemonDetail
 import com.dominio.pokedex.main.model.PokemonsModel
@@ -10,7 +10,6 @@ import javax.inject.Inject
 class PokemonsRepository @Inject constructor(
     val pokemonsDataSource: PokemonDataSource
 ){
-
     suspend fun getAllPokemons(offset: Int, limit: Int): Response<PokemonsModel>? {
         var response: Response<PokemonsModel>? = null
 

@@ -23,7 +23,7 @@ class Paginator (
         isMakingRequest = false
         val items = result?.body()
          if (result?.isSuccessful == false || items == null) {
-            onError(result?.message())
+            onError(result?.code().toString())
             onLoadUpdated(false)
             return
         }

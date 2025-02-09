@@ -27,7 +27,16 @@ class PokemonsViewModel @Inject constructor(
             pokemonsRepository.getAllPokemons(offset = offset, limit = limit)
         },
         onError = {
-            _pokemonsUIState = _pokemonsUIState.copy(isLoading = false, error = true, responseStatus = it.toString())
+            val responseStatus = if (it.toString().contains("404")) {
+                "Error 404: Page not found."
+            } else if (it.toString().contains("505")) {
+                "Error 505: Internal Server Error"
+            }  else if (it.toString().contains("204")) {
+                "Error 204: No Content"
+            } else {
+                "Error: $it Could not reach server."
+            }
+            _pokemonsUIState = _pokemonsUIState.copy(isLoading = false, error = true, responseStatus = responseStatus)
         },
         onSuccess = { items ->
             _pokemonsUIState = _pokemonsUIState.copy(
