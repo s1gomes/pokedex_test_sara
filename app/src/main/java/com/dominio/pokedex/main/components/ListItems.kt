@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,30 +48,26 @@ fun PokemonItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp)
-            .border(
-                width = 1.dp,
-                color = CustomLightColors.secondary,
-                shape = RoundedCornerShape(13.dp)
-            )
+            .padding(8.dp)
             .clickable { onClickPokemon() },
-        shape = RoundedCornerShape(13.dp),
-        colors = CardColors(
-            disabledContentColor = CustomLightColors.surface,
-            contentColor = CustomLightColors.onBackground,
-            containerColor = CustomLightColors.surface,
-            disabledContainerColor = CustomLightColors.onBackground
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.elevatedCardElevation(4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = CustomLightColors.surface
         )
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                modifier = Modifier.padding(5.dp),
-                text = pokemonName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
-                color = CustomLightColors.onBackground,
+                text = pokemonName.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+                },
+                color = CustomLightColors.onSurface,
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center
             )

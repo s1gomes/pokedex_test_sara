@@ -19,11 +19,11 @@ val CustomLightColors = lightColorScheme(
     background = Color(0xD9F1F1F1),
     surface = Color(0xFFFFFFFF),
     error = Color(0xFFB00020),
-    onPrimary = Color(0xFFFFFFFF),
+    onPrimary = Color(0xFFC7DFF0),
     onSecondary = Color(0xFF003400),
     onBackground = Color(0xFF000000),
     onSurface = Color(0xFF000C4C),
-    onError = Color(0xFF810606),
+    onError = Color(0xFFAC6262),
 )
 
 val CustomDarkColors = darkColorScheme(

@@ -56,11 +56,22 @@ fun PokemonsList(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Pokemon list is empty",
-                style = MaterialTheme.typography.headlineMedium,
-                color = CustomLightColors.error
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Pokemon list is empty.",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = CustomLightColors.error
+                )
+                IconButton(onClick = {
+                    pokemonsViewModel.onEvent(PokemonsUIEvents.LoadMorePokemons)
+                }) {
+                    Icon(painter = painterResource(id = R.drawable.reload), contentDescription = "reload")
+                }
+            }
         }
     } else if (pokemonsUIState.error){
         Column(
@@ -89,7 +100,7 @@ fun PokemonsList(
 
     else {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
+            columns = GridCells.Fixed(2),
             state = listState,
             modifier = Modifier
                 .fillMaxWidth()
@@ -118,7 +129,6 @@ fun PokemonsList(
                     }
                 }
             }
-
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.dominio.pokedex.main.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -9,6 +10,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.dominio.pokedex.main.components.AppBarPokemonDetail
@@ -49,7 +51,9 @@ fun PokemonDetailScreen(
     ) {
         Column(
             modifier = Modifier
-                .background(CustomLightColors.background)
+                .background(CustomLightColors.background),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             PokemonImage(
                 paddingValues = it,
@@ -62,7 +66,8 @@ fun PokemonDetailScreen(
                 pokemonDetail = pokemonDetail,
                 modifier = Modifier
                     .weight(0.7F),
-                scrollableState = scrollableState
+                scrollState = scrollableState
+//                scrollableState = scrollableState
             )
         }
     }

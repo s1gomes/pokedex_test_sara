@@ -52,7 +52,7 @@ fun AppBarPokemonDetail(
             onClick = {navController.navigateUp() },
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.back),
+                painter = painterResource(id = R.drawable.leftarrow),
                 contentDescription = "back")
         }
         Row(

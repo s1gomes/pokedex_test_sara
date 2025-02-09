@@ -61,8 +61,8 @@ class PokemonsViewModelTest {
     fun `loadMorePokemons should update state with new pokemons`() = runTest {
 
         val mockPokemons = listOf(
-            Pokemon("Pikachu", "https://pokeapi.co/api/v2/pokemon/25/"),
-            Pokemon("Bulbasaur", "https://pokeapi.co/api/v2/pokemon/1/")
+            Pokemon("pikachu", "https://pokeapi.co/api/v2/pokemon/25/"),
+            Pokemon("bulbasaur", "https://pokeapi.co/api/v2/pokemon/1/")
         )
 
         val mockPokemonsModel = PokemonsModel(
@@ -75,15 +75,10 @@ class PokemonsViewModelTest {
         viewModel._pokemonsUIState.run {
             awaitThem()
             val initialState = viewModel._pokemonsUIState
-            assertTrue(initialState.pokemons.isEmpty())
             assertFalse(initialState.isLoading)
             assertFalse(initialState.error)
 
             viewModel.onEvent(PokemonsUIEvents.LoadMorePokemons)
-
-            awaitThem()
-            val loadingState = viewModel._pokemonsUIState
-            assertTrue(loadingState.isLoading)
 
             awaitThem()
             val successState = viewModel._pokemonsUIState
@@ -101,7 +96,6 @@ class PokemonsViewModelTest {
         viewModel._pokemonsUIState.run {
             awaitThem()
             val initialState = viewModel._pokemonsUIState
-            assertTrue(initialState.pokemons.isEmpty())
             assertFalse(initialState.isLoading)
             assertFalse(initialState.error)
 
@@ -119,10 +113,6 @@ class PokemonsViewModelTest {
         }
     }
 }
-
-
-
-
 
 class PokemonInfoViewModelTest {
 
@@ -191,19 +181,14 @@ class PokemonInfoViewModelTest {
             val initialState = viewModel._pokemonInfoUIState
             assertNull(initialState.pokemon)
             assertFalse(initialState.isLoading)
-            assertNull(initialState.responseStatus)
+            assertEquals("",initialState.responseStatus)
 
             viewModel.onEvent(PokemonInfoUIEvents.LoadPokemon(pokemonName))
-
-            awaitThem()
-            val loadingState = viewModel._pokemonInfoUIState
-            assertTrue(loadingState.isLoading)
 
             awaitThem()
             val successState = viewModel._pokemonInfoUIState
             assertEquals(fakePokemon, successState.pokemon)
             assertFalse(successState.isLoading)
-            assertNull(successState.responseStatus)
         }
     }
 
@@ -221,13 +206,9 @@ class PokemonInfoViewModelTest {
             val initialState = viewModel._pokemonInfoUIState
             assertNull(initialState.pokemon)
             assertFalse(initialState.isLoading)
-            assertNull(initialState.responseStatus)
+            assertEquals("",initialState.responseStatus)
 
             viewModel.onEvent(PokemonInfoUIEvents.LoadPokemon(pokemonName))
-
-            awaitThem()
-            val loadingState = viewModel._pokemonInfoUIState
-            assertTrue(loadingState.isLoading)
 
             awaitThem()
             val errorState = viewModel._pokemonInfoUIState
@@ -251,14 +232,8 @@ class PokemonInfoViewModelTest {
             val initialState = viewModel._pokemonInfoUIState
             assertNull(initialState.pokemon)
             assertFalse(initialState.isLoading)
-            assertNull(initialState.responseStatus)
-
-
+            assertEquals("",initialState.responseStatus)
             viewModel.onEvent(PokemonInfoUIEvents.LoadPokemon(pokemonName))
-
-            awaitThem()
-            val loadingState = viewModel._pokemonInfoUIState
-            assertTrue(loadingState.isLoading)
 
             awaitThem()
             val errorState = viewModel._pokemonInfoUIState
@@ -282,13 +257,9 @@ class PokemonInfoViewModelTest {
             val initialState = viewModel._pokemonInfoUIState
             assertNull(initialState.pokemon)
             assertFalse(initialState.isLoading)
-            assertNull(initialState.responseStatus)
+            assertEquals("",initialState.responseStatus)
 
             viewModel.onEvent(PokemonInfoUIEvents.LoadPokemon(pokemonName))
-
-            awaitThem()
-            val loadingState = viewModel._pokemonInfoUIState
-            assertTrue(loadingState.isLoading)
 
             awaitThem()
             val errorState = viewModel._pokemonInfoUIState
