@@ -41,40 +41,28 @@ fun PokemonImage(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom
     ) {
-        Column(
-            modifier = Modifier
-                .wrapContentHeight()
-                .fillMaxWidth()
-                .weight(0.3F)
-                .padding(paddingValues)
-                .clip(CircleShape)
-                .background(color = MaterialTheme.colorScheme.background, shape = CircleShape),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
             ImageItem(
-                collumnmodifier = modifier.weight(0.3F),
+                collumnmodifier = Modifier.weight(0.3F),
                 paddingValues = paddingValues,
-                imagemodifier = modifier.height(120.dp),
+                imagemodifier = Modifier.height(120.dp),
                 pokemonDetail = pokemonDetail.pokemon?.sprites?.other?.officialArtwork?.front_shiny.toString(),
                 label = "Shiny"
             )
             ImageItem(
-                collumnmodifier = modifier.weight(0.4F),
+                collumnmodifier = Modifier.weight(0.4F),
                 paddingValues = paddingValues,
-                imagemodifier = modifier.height(190.dp),
+                imagemodifier = Modifier.height(190.dp),
                 pokemonDetail = pokemonDetail.pokemon?.sprites?.other?.officialArtwork?.front_default.toString(),
                 label = ""
             )
             ImageItem(
-                collumnmodifier = modifier.weight(0.3F),
+                collumnmodifier = Modifier.weight(0.3F),
                 paddingValues = paddingValues,
-                imagemodifier = modifier.height(120.dp),
+                imagemodifier = Modifier.height(120.dp),
                 pokemonDetail = pokemonDetail.pokemon?.sprites?.other?.home?.front_default.toString(),
                 label = "3D"
             )
         }
-    }
 }
 
 @Composable
