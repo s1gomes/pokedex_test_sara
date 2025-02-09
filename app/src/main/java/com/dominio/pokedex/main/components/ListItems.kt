@@ -90,14 +90,14 @@ fun ImageItem(
             .fillMaxWidth()
             .padding(paddingValues)
             .clip(CircleShape)
-            .background(color = MaterialTheme.colorScheme.background, shape = CircleShape),
+            .background(color = Color.Transparent, shape = CircleShape),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
             modifier = imagemodifier
                 .clip(CircleShape)
-                .background(color = MaterialTheme.colorScheme.background, shape = CircleShape),
+                .background(color = Color.Transparent, shape = CircleShape),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(pokemonDetail)
                 .crossfade(true)

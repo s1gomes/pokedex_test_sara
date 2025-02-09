@@ -16,14 +16,14 @@ val Pink40 = Color(0xFF7D5260)
 val CustomLightColors = lightColorScheme(
     primary = Color(0xFF03548A),
     secondary = Color(0xFFEBD56F),
-    background = Color(0xD9F1F1F1),
+    background = Color(0xD9FFFFFF),
     surface = Color(0xFFFFFFFF),
     error = Color(0xFFB00020),
     onPrimary = Color(0xFFC7DFF0),
     onSecondary = Color(0xFF003400),
     onBackground = Color(0xFF000000),
     onSurface = Color(0xFF000C4C),
-    onError = Color(0xFFAC6262),
+    onError = Color(0xFFDA6565),
 )
 
 val CustomDarkColors = darkColorScheme(

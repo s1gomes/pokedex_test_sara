@@ -147,10 +147,10 @@ fun PokemonDescription(
                                 onClick = {},
                                 label = {
                                     Text(type.replaceFirstChar { it.uppercaseChar() },
-                                        color = CustomLightColors.onBackground)
+                                        color = CustomLightColors.surface)
                                     },
                                 colors = AssistChipDefaults.assistChipColors(
-                                    containerColor = CustomLightColors.error
+                                    containerColor = CustomLightColors.onError
                                 ),
                                 modifier = Modifier.padding(4.dp)
                             )
