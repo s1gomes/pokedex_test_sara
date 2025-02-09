@@ -25,7 +25,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -59,7 +58,7 @@ class PokemonsViewModelTest {
     }
 
     @Test
-    fun `loadMorePokemons should update state with new pokemons`() = runBlocking {
+    fun `loadMorePokemons should update state with new pokemons`() = runTest {
 
         val mockPokemons = listOf(
             Pokemon("Pikachu", "https://pokeapi.co/api/v2/pokemon/25/"),
@@ -95,7 +94,7 @@ class PokemonsViewModelTest {
     }
 
     @Test
-    fun `loadMorePokemons should handle error state`() = runBlocking {
+    fun `loadMorePokemons should handle error state`() = runTest {
         val errorMessage = "Network error"
         coEvery { mockRepository.getAllPokemons(any(), any()) } throws RuntimeException(errorMessage)
 
@@ -149,10 +148,10 @@ class PokemonInfoViewModelTest {
     }
 
     @Test
-    fun `loadPokemon should update state with pokemon details on successful response`() = runBlocking {
+    fun `loadPokemon should update state with pokemon details on successful response`() = runTest {
 
         val pokemonName = "pikachu"
-        val fakePokemon = PokemonDetail(name = "pikachu",
+        val fakePokemon: PokemonDetail? = PokemonDetail(name = "pikachu",
             id = "1",
             base_experience = "2",
             abilities = listOf(AbilityItem(
@@ -209,7 +208,7 @@ class PokemonInfoViewModelTest {
     }
 
     @Test
-    fun `loadPokemon should handle 404 error`() = runBlocking {
+    fun `loadPokemon should handle 404 error`() = runTest {
 
         val pokemonName = "unknown"
         val mockResponse: Response<PokemonDetail> = Response.error(404, mockk(relaxed = true))
@@ -239,7 +238,7 @@ class PokemonInfoViewModelTest {
     }
 
     @Test
-    fun `loadPokemon should handle 505 error`() = runBlocking {
+    fun `loadPokemon should handle 505 error`() = runTest {
 
         val pokemonName = "server-error"
         val mockResponse: Response<PokemonDetail> = Response.error(505, mockk(relaxed = true))
@@ -270,7 +269,7 @@ class PokemonInfoViewModelTest {
     }
 
     @Test
-    fun `loadPokemon should handle generic error`() = runBlocking {
+    fun `loadPokemon should handle generic error`() = runTest {
 
         val pokemonName = "generic-error"
         val mockResponse: Response<PokemonDetail> = Response.error(500, mockk(relaxed = true))

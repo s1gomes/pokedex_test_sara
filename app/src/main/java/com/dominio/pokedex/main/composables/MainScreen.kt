@@ -37,6 +37,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.dominio.pokedex.R
+import com.dominio.pokedex.main.components.AppBarPokemonTitle
+import com.dominio.pokedex.main.components.PokemonItem
+import com.dominio.pokedex.main.components.PokemonsList
 import com.dominio.pokedex.main.datalayer.pokemon.PokemonsUIEvents
 import com.dominio.pokedex.main.datalayer.pokemon.PokemonsUIState
 import com.dominio.pokedex.main.datalayer.pokemon.PokemonsViewModel
@@ -62,19 +65,7 @@ fun MainScreen(
                     titleContentColor = CustomLightColors.background,
                 ),
                 title = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(text = "Pokémons",
-                            style = MaterialTheme.typography.headlineLarge.copy(
-                                fontWeight = FontWeight.Bold
-                            ),
-                            color = CustomLightColors.secondary,
-                            textAlign = TextAlign.Center
-                        )
-                    }
+                   AppBarPokemonTitle()
             })
         },
     ) {
@@ -91,124 +82,3 @@ fun MainScreen(
     }
 }
 
-@Composable
-fun PokemonsList(
-    pokemons: List<Pokemon>,
-    listState: LazyGridState,
-    paddingValues: PaddingValues,
-    pokemonsUIState: PokemonsUIState,
-    onClickPokemon: (name: String) -> Unit,
-    pokemonsViewModel: PokemonsViewModel
-) {
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.layoutInfo }
-            .collect { layoutInfo ->
-                val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()
-                val totalItems = layoutInfo.totalItemsCount
-
-                if (lastVisibleItem != null && lastVisibleItem.index >= totalItems - 1) {
-                    pokemonsViewModel.onEvent(PokemonsUIEvents.LoadMorePokemons)
-                }
-            }
-    }
-    if (pokemons.isEmpty() && !pokemonsUIState.isLoading) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Pokemon list is empty",
-                style = MaterialTheme.typography.headlineMedium,
-                color = CustomLightColors.error
-            )
-        }
-    } else if (pokemonsUIState.error){
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Error: ${pokemonsUIState.responseStatus}",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = CustomLightColors.error
-                )
-                IconButton(onClick = {
-                    pokemonsViewModel.onEvent(PokemonsUIEvents.LoadMorePokemons)
-                }) {
-                    Icon(painter = painterResource(id = R.drawable.reload), contentDescription = "reload")
-                }
-            }
-        }
-    }
-
-    else {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            state = listState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(CustomLightColors.background),
-            contentPadding = paddingValues
-        ) {
-            items(pokemons.size) { pokemon ->
-                PokemonItem(
-                    pokemonName = pokemons[pokemon].name,
-                    onClickPokemon = {
-                        onClickPokemon(pokemons[pokemon].name)
-                    }
-                )
-            }
-
-            item {
-                if (pokemonsUIState.isLoading) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-            }
-
-        }
-    }
-}
-
-@Composable
-fun PokemonItem(
-    pokemonName: String,
-    onClickPokemon: () -> Unit
-) {
-    Spacer(modifier = Modifier.height(5.dp))
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-            .border(
-                width = 1.dp,
-                color = CustomLightColors.secondary,
-                shape = RoundedCornerShape(13.dp)
-            )
-            .clickable { onClickPokemon() },
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            modifier = Modifier.padding(5.dp),
-            text = pokemonName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
-            color = CustomLightColors.onBackground,
-            style = MaterialTheme.typography.headlineSmall
-        )
-    }
-
-}
